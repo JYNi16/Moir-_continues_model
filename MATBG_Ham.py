@@ -9,8 +9,9 @@ from numpy import *
 import numpy as np
 from config import *
 
-def T_mat(j):    
-    return w0*s0 + w1*(cos((2*pi/3)*(j-1))*sx + sin((2*pi/3)*(j-1))*sy)
+#define the interlayer hopping term matrix Tth
+def T_mat(i):    
+    return w0*s0 + w1*(cos((2*pi/3)*(i-1))*sx + sin((2*pi/3)*(i-1))*sy)
 
 Tqb    =  T_mat(1)
 Tqtr   =  T_mat(2)
