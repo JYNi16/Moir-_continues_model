@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-The Hamiltonian of the twist bilayer Graphene with magic angle
+The Hamiltonian of the twist bilayer Graphene with magic angle xxx
 
 @author: Curry
 """
@@ -9,16 +9,18 @@ from numpy import *
 import numpy as np
 from config import *
 
-Tqb    = omega*np.array([[1,1], [1,1]], dtype=complex)
-Tqtr   = omega*np.array([[ei120, 1], [ei240, ei120]], dtype=complex)
-Tqtl   = omega*np.array([[ei240, 1], [ei120, ei240]], dtype=complex)
+def T_mat(j):    
+    return w0*s0 + w1*(cos((2*pi/3)*(j-1))*sx + sin((2*pi/3)*(j-1))*sy)
+
+Tqb    =  T_mat(1)
+Tqtr   =  T_mat(2)
+Tqtl   =  T_mat(3)
 TqbD   = np.array(np.matrix(Tqb).H)
 TqtrD  = np.array(np.matrix(Tqtr).H)
 TqtlD  = np.array(np.matrix(Tqtl).H)
 
 L = []
 invL = np.zeros((2*N+1, 2*N+1), int)
-print("invL is:", invL)
 
 def Lattice(n):
     count = 0
@@ -36,12 +38,11 @@ siteN = (2*N+1)*(2*N+1)
 L = np.array(L)
 
 print("invL is:", invL)
-print("L is:", L.shape)
+print("L is:", L)
 
 def Hamiltonian(k):
     kx, ky = k
     H = array(zeros((4*siteN, 4*siteN)), dtype=complex)
-    print("H.shape is:", H.shape)
     for i in np.arange(siteN):
         #diagonal term
         ix = L[i, 0]
@@ -57,6 +58,7 @@ def Hamiltonian(k):
 
         #off-diagonal term
         j = i + siteN
+        #print("j1 is:", j)
         H[2*j, 2*i]     = TqbD[0, 0]
         H[2*j, 2*i+1]   = TqbD[0, 1]
         H[2*j+1, 2*i]   = TqbD[1, 0]
@@ -95,7 +97,9 @@ def Hamiltonian(k):
         H[2*j+1, 2*i]   = Tqb[1, 0]
         H[2*j+1, 2*i+1] = Tqb[1, 1]
         if (iy != (-valley*N)):
+            #print("iy is:", iy)
             j = invL[ix+N, iy-valley*1+N]
+            #print("iy is:", iy, "j2 is:", 2*j)
             H[2*j, 2*i]     = Tqtr[0, 0]
             H[2*j, 2*i+1]   = Tqtr[0, 1]
             H[2*j+1, 2*i]   = Tqtr[1, 0]
@@ -109,3 +113,6 @@ def Hamiltonian(k):
     
     return H
 
+#set_printoptiopns in printing
+#np.set_printoptions(threshold=np.inf)
+#H = Hamiltonian(G)

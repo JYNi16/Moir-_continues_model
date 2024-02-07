@@ -10,7 +10,8 @@ import numpy as np
 
 #define constant
 theta_v  = 1.05           #degree
-omega  = 110.7          #mev
+w1  = 110.7          #interlayer hopping term //mev
+w0 = w1*(0.95)
 d      = 1.420          #angstrom, whatever is ok.
 hv     = 1.5*d*2970     #meV*angstrom, Fermi velocity for SLG
 N      = 3              #truncate range
@@ -33,6 +34,12 @@ K1  = 8*np.pi*sin(theta/2)/3/sqrt(3)/d*array([-sqrt(3)/2,-0.5])
 K2  = 8*np.pi*sin(theta/2)/3/sqrt(3)/d*array([-sqrt(3)/2,0.5])
 M  = 8*np.pi*sin(theta/2)/3/sqrt(3)/d*array([-sqrt(3)/2,0]) 
 G  = np.array([0,0]) 
+
+#define the pauli matrix
+s0 = np.array([[1,0],[0,1]], dtype=complex)
+sx = np.array([[0,1],[1,0]], dtype=complex)
+sy = np.array([[0,-1.j],[1.j, 0]], dtype=complex)
+sz = np.array([[1,0],[0,-1]],  dtype=complex)
 
 #others
 sq3 = np.sqrt(3)
