@@ -90,7 +90,7 @@ def plot_band():
     plt.yticks(fontproperties = "Times New Roman", fontsize=20)
     #plt.text(0.2,6.1, "(a)", fontsize=20, style= "Times New Roman")
     #plt.text(4.5,5, "$\mathregular{\Delta J_2 / D = 0.1}$", fontdict = font_txt)
-    title = r"Band of TBG with magic angle of {}$^\degree$ and ".format(theta_v) + r"$w_{1}/w_{0}$ = " + str(r1)
+    title = r"Band of TBG with magic angle of {}$^\degree$ and $w_1 / w_0 = {}$".format(theta_v, r1)
     plt.title(title,loc = "center",fontdict={"size":"xx-large","color":"black", "family":"Times New Roman"})
     
     plt.savefig("./figure/MATBG_{}_{}.png".format(theta_v, r1), dpi=500)
