@@ -11,7 +11,7 @@ import numpy as np
 #define constant
 theta_v  = 1.05           #degree
 w1  = 110.7          #interlayer hopping term //mev
-r1 = 1  # w1/w0
+r1 = 0.95  # w1/w0
 w0 = w1*(r1)
 d      = 1.420          #angstrom, whatever is ok.
 hv     = 1.5*d*2970     #meV*angstrom, Fermi velocity for SLG
