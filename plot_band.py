@@ -8,7 +8,7 @@ Script for ploting band for MATBG ...
 from config import * 
 import numpy as np 
 import matplotlib.pyplot as plt
-from MATBG_Ham import *
+from MATBG_Ham import Hamiltonian
 
 def H(k):
     e = np.sort(np.real(np.linalg.eig(Hamiltonian(k))[0]))

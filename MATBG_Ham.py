@@ -13,15 +13,16 @@ from config import *
 def T_mat(i):    
     return w0*s0 + w1*(cos((2*pi/3)*(i-1))*sx + sin((2*pi/3)*(i-1))*sy)
 
-Tqb    =  T_mat(1)
-Tqtr   =  T_mat(2)
-Tqtl   =  T_mat(3)
-TqbD   = np.array(np.matrix(Tqb).H)
-TqtrD  = np.array(np.matrix(Tqtr).H)
-TqtlD  = np.array(np.matrix(Tqtl).H)
+T1    =  T_mat(1)
+T2   =  T_mat(2)
+T3   =  T_mat(3)
 
-L = []
+T1_h   = np.array(np.matrix(T1).H)
+T2_h  = np.array(np.matrix(T2).H)
+T3_h  = np.array(np.matrix(T3).H)
+
 invL = np.zeros((2*N+1, 2*N+1), int)
+L = []
 
 def Lattice(n):
     count = 0
@@ -30,9 +31,6 @@ def Lattice(n):
             L.append([i, j])
             invL[i+n, j+n] = count
             count = count + 1
-    for i in np.arange(-n, n+1):
-        for j in np.arange(-n, n+1):
-            L.append([i, j])
 
 Lattice(N)
 siteN = (2*N+1)*(2*N+1)
@@ -43,77 +41,83 @@ print("L is:", L)
 
 def Hamiltonian(k):
     kx, ky = k
+    
     H = array(zeros((4*siteN, 4*siteN)), dtype=complex)
+    
     for i in np.arange(siteN):
         #diagonal term
-        ix = L[i, 0]
-        iy = L[i, 1]
-        ax = kx - valley*K1[0] + ix*b1m[0] + iy*b2m[0]
-        ay = ky - valley*K1[1] + ix*b1m[1] + iy*b2m[1]
-
+        m = L[i, 0]
+        n = L[i, 1]
+        
+        ax = kx - valley*K1[0] + m*b1m[0] + n*b2m[0]
+        ay = ky - valley*K1[1] + m*b1m[1] + n*b2m[1] 
+        
         qx = cos(theta/2) * ax + sin(theta/2) * ay
         qy =-sin(theta/2) * ax + cos(theta/2) * ay
-         
-        H[2*i, 2*i+1] = hv * (valley*qx - I*qy)
-        H[2*i+1, 2*i] = hv * (valley*qx + I*qy)
-
-        #off-diagonal term
-        j = i + siteN
-        #print("j1 is:", j)
-        H[2*j, 2*i]     = TqbD[0, 0]
-        H[2*j, 2*i+1]   = TqbD[0, 1]
-        H[2*j+1, 2*i]   = TqbD[1, 0]
-        H[2*j+1, 2*i+1] = TqbD[1, 1]
-        if (iy != valley*N):
-            j = invL[ix+N, iy+valley*1+N] + siteN
-            H[2*j, 2*i]     = TqtrD[0, 0]
-            H[2*j, 2*i+1]   = TqtrD[0, 1]
-            H[2*j+1, 2*i]   = TqtrD[1, 0]
-            H[2*j+1, 2*i+1] = TqtrD[1, 1]
-        if (ix != -valley*N):
-            j = invL[ix-valley*1+N, iy+N] + siteN
-            H[2*j, 2*i]     = TqtlD[0, 0]
-            H[2*j, 2*i+1]   = TqtlD[0, 1]
-            H[2*j+1, 2*i]   = TqtlD[1, 0]
-            H[2*j+1, 2*i+1] = TqtlD[1, 1]
         
-
-    for i in np.arange(siteN, 2*siteN):
-        #diagnoal term
-        j = i - siteN
-        ix = L[j, 0]
-        iy = L[j, 1]
-        ax = kx  - valley*K2[0] + ix*b1m[0] + iy*b2m[0] 
-        ay = ky  - valley*K2[1] + ix*b1m[1] + iy*b2m[1]
-
-        qx = cos(theta/2) * ax - sin(theta/2) * ay
-        qy = sin(theta/2) * ax + cos(theta/2) * ay
-
+        #diagonal term of the first layer 
         H[2*i, 2*i+1] = hv * (valley*qx - I*qy)
         H[2*i+1, 2*i] = hv * (valley*qx + I*qy)
+        
+        ax2 = kx  - valley*K2[0] + m*b1m[0] + n*b2m[0] 
+        ay2 = ky  - valley*K2[1] + m*b1m[1] + n*b2m[1]
 
-        #off-diagonal term
-        H[2*j, 2*i]     = Tqb[0, 0]
-        H[2*j, 2*i+1]   = Tqb[0, 1]
-        H[2*j+1, 2*i]   = Tqb[1, 0]
-        H[2*j+1, 2*i+1] = Tqb[1, 1]
-        if (iy != (-valley*N)):
-            #print("iy is:", iy)
-            j = invL[ix+N, iy-valley*1+N]
-            #print("iy is:", iy, "j2 is:", 2*j)
-            H[2*j, 2*i]     = Tqtr[0, 0]
-            H[2*j, 2*i+1]   = Tqtr[0, 1]
-            H[2*j+1, 2*i]   = Tqtr[1, 0]
-            H[2*j+1, 2*i+1] = Tqtr[1, 1]
-        if (ix != valley*N):
-            j = invL[ix+valley*1+N, iy+N]
-            H[2*j, 2*i]     = Tqtl[0, 0]
-            H[2*j, 2*i+1]   = Tqtl[0, 1]
-            H[2*j+1, 2*i]   = Tqtl[1, 0]
-            H[2*j+1, 2*i+1] = Tqtl[1, 1]
+        qx2 = cos(theta/2) * ax2 - sin(theta/2) * ay2
+        qy2 = sin(theta/2) * ax2 + cos(theta/2) * ay2
+        
+        #diagonal term of the second layer 
+        H[2*(i+siteN), 2*(i+siteN)+1] = hv * (valley*qx2 - I*qy2)
+        H[2*(i+siteN)+1, 2*(i+siteN)] = hv * (valley*qx2 + I*qy2)
+
+        #off-diagonal term when m1-m2==0 and n1-n2==0
+        #lower left part 
+        j = i + siteN
+        H[2*j, 2*i]     = T1_h[0, 0]
+        H[2*j, 2*i+1]   = T1_h[0, 1]
+        H[2*j+1, 2*i]   = T1_h[1, 0]
+        H[2*j+1, 2*i+1] = T1_h[1, 1]
+        
+        #upper right part
+        H[2*i, 2*j]     = T1[0, 0]
+        H[2*i+1, 2*j]   = T1[0, 1]
+        H[2*i, 2*j+1]   = T1[1, 0]
+        H[2*i+1, 2*j+1] = T1[1, 1]
+        
+        #off-diagonal term when m1-m2==0, n1-n2==-1*valley
+        if (n != valley*N):
+            j = invL[m+N, n+valley*1+N] + siteN
+            
+            #lower left part
+            H[2*j, 2*i]     = T2_h[0, 0]
+            H[2*j, 2*i+1]   = T2_h[0, 1]
+            H[2*j+1, 2*i]   = T2_h[1, 0]
+            H[2*j+1, 2*i+1] = T2_h[1, 1]
+            
+            #upper right part
+            H[2*i, 2*j]     = T2[0, 0]
+            H[2*i, 2*j+1]   = T2[0, 1]
+            H[2*i+1, 2*j]   = T2[1, 0]
+            H[2*i+1, 2*j+1] = T2[1, 1]
+        
+        #off-diagonal term when m1-m2==1*valley, n1-n2==0
+        if (m != -valley*N):
+            j = invL[m-valley*1+N, n+N] + siteN
+            
+            #lower left part
+            H[2*j, 2*i]     = T3_h[0, 0]
+            H[2*j, 2*i+1]   = T3_h[0, 1]
+            H[2*j+1, 2*i]   = T3_h[1, 0]
+            H[2*j+1, 2*i+1] = T3_h[1, 1]
+            
+            #upper right part
+            H[2*i, 2*j]     = T3[0, 0]
+            H[2*i, 2*j+1]   = T3[0, 1]
+            H[2*i+1, 2*j]   = T3[1, 0]
+            H[2*i+1, 2*j+1] = T3[1, 1]
     
     return H
 
 #set_printoptiopns in printing
-#np.set_printoptions(threshold=np.inf)
-#H = Hamiltonian(G)
+np.set_printoptions(threshold=np.inf)
+H = Hamiltonian(G)
+print(H[0][:])
