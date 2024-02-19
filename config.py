@@ -9,13 +9,16 @@ from numpy import *
 import numpy as np
 
 #define constant
-theta_v  = 1.05           #degree
+theta_v  = 1.05          #degree
 w1  = 110.7          #interlayer hopping term //mev
-r1 = 0.95  # w1/w0
+r1 = 0.9  # w1/w0 in 1-2 layer
 w0 = w1*(r1)
+
+#r12 = 0.5  # w1/w0 in 1-2 layer
+#w0 = w1*(r12)
 d      = 1.420          #angstrom, whatever is ok.
 hv     = 1.5*d*2970     #meV*angstrom, Fermi velocity for SLG
-N      = 3              #truncate range
+N      = 2              #truncate range
 valley = +1             #+1 for K, -1 for K'
 npoints  = 50           #density of k points, 100 is good
 

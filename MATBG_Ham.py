@@ -79,8 +79,8 @@ def Hamiltonian(k):
         
         #upper right part
         H[2*i, 2*j]     = T1[0, 0]
-        H[2*i+1, 2*j]   = T1[0, 1]
-        H[2*i, 2*j+1]   = T1[1, 0]
+        H[2*i, 2*j+1]   = T1[0, 1]
+        H[2*i+1, 2*j]   = T1[1, 0]
         H[2*i+1, 2*j+1] = T1[1, 1]
         
         #off-diagonal term when m1-m2==0, n1-n2==-1*valley
@@ -120,4 +120,4 @@ def Hamiltonian(k):
 #set_printoptiopns in printing
 np.set_printoptions(threshold=np.inf)
 H = Hamiltonian(G)
-print(H[0][:])
+#print(H[0][:])
