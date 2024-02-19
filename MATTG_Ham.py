@@ -74,7 +74,7 @@ def Hamiltonian(k):
         H[2*(i+siteN)+1, 2*(i+siteN)] = hv * (valley*qx2 + I*qy2)
 
         #off-diagonal term when m1-m2==0 and n1-n2==0
-        #lower left part 
+        #lower left part (1st-layer -> 2nd-layer)
         j = i + siteN
         H[2*j, 2*i]     = T1_h[0, 0]
         H[2*j, 2*i+1]   = T1_h[0, 1]
@@ -88,10 +88,10 @@ def Hamiltonian(k):
         H[2*i+1, 2*j+1] = T1[1, 1]
         
         #upper right part (2nd-layer -> 3rd-layer)
-        H[2*j, 2*i+4*siteN]     = T1_h[0, 0]
-        H[2*j, 2*i+4*siteN+1]   = T1_h[0, 1]
-        H[2*j+1, 2*i+4*siteN]   = T1_h[1, 0]
-        H[2*j+1, 2*i+4*siteN+1] = T1_h[1, 1]
+        H[2*j, 2*i+4*siteN]     = T1[0, 0]
+        H[2*j, 2*i+4*siteN+1]   = T1[0, 1]
+        H[2*j+1, 2*i+4*siteN]   = T1[1, 0]
+        H[2*j+1, 2*i+4*siteN+1] = T1[1, 1]
         
             
         #lower left part
@@ -105,7 +105,7 @@ def Hamiltonian(k):
         if (n != valley*N):
             j = invL[m+N, n+valley*1+N] + siteN
             
-            #lower left part
+            #lower left part (1st-layer -> 2nd-layer)
             H[2*j, 2*i]     = T2_h[0, 0]
             H[2*j, 2*i+1]   = T2_h[0, 1]
             H[2*j+1, 2*i]   = T2_h[1, 0]
@@ -135,7 +135,7 @@ def Hamiltonian(k):
         if (m != -valley*N):
             j = invL[m-valley*1+N, n+N] + siteN
             
-            #lower left part
+            #lower left part 1st-layer -> 2nd-layer)
             H[2*j, 2*i]     = T3_h[0, 0]
             H[2*j, 2*i+1]   = T3_h[0, 1]
             H[2*j+1, 2*i]   = T3_h[1, 0]
