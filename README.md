@@ -1,2 +1,2 @@
-# Moire_continues_model
-Based on continues model to construct the Hamiltonian of twisted bilayer (multi-layers) system
+# Moire_continuum_model
+Based on continuum model to construct the Hamiltonian of twisted bilayer (multi-layers) system
