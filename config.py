@@ -9,7 +9,7 @@ from numpy import *
 import numpy as np
 
 #define constant
-theta_v  = 1.57          #degree
+theta_v  = 1.05          #degree
 w1  = 110.7          #interlayer hopping term //mev
 r1 = 0.9  # w1/w0 in 1-2 layer
 w0 = w1*(r1)

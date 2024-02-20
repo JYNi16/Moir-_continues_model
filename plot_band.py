@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Script for ploting band for MATBG ...
+Module to plot band for MATBG ...
 
 @author: Curry
 """
@@ -8,7 +8,7 @@ Script for ploting band for MATBG ...
 from config import * 
 import numpy as np 
 import matplotlib.pyplot as plt
-from MATTG_Ham import Hamiltonian
+from MATBG_Ham import Hamiltonian
 from k_sym_gen import *
 
 def H(k):
@@ -23,7 +23,10 @@ def band_post():
     for i in range(len(k_point_path)):
         E_values = np.array(list(map(H, k_point_path[i])))
         #print("E_values is:", E_values)
-        E_band.append(E_values)
+        if (len(E_values.shape) < 2):
+            E_band.append((np.reshape(E_values,[E_values.shape[0], -1])))
+        else:
+            E_band.append(E_values)
     
     return np.array(E_band), k_point_path, k_path, Node
 
@@ -35,12 +38,6 @@ def plot_band():
     print("E_band.shape is:", shape) 
         
     plt.figure(1, figsize=(8,8))
-    if len(shape) < 2:
-        eig = np.hstack(tuple(E_band))
-        plt.plot(k_path, eig)
-        #plt.xticks(Node,Node_label)
-        plt.show()   
-        return 
     
     for i in range(shape[-1]):
         eig_test = [] 
@@ -59,10 +56,10 @@ def plot_band():
     plt.yticks(fontproperties = "Times New Roman", fontsize=20)
     #plt.text(0.2,6.1, "(a)", fontsize=20, style= "Times New Roman")
     #plt.text(4.5,5, "$\mathregular{\Delta J_2 / D = 0.1}$", fontdict = font_txt)
-    title = r"Band of TTG with magic angle of {}$^\degree$ and $w_1 / w_0 = {}$".format(theta_v, r1)
+    title = r"Band of TBG with magic angle of {}$^\degree$ and $w_1 / w_0 = {}$".format(theta_v, r1)
     plt.title(title,loc = "center",fontdict={"size":"xx-large","color":"black", "family":"Times New Roman"})
     
-    plt.savefig("./figure/MATTG_{}_{}.png".format(theta_v, r1), dpi=500)
+    plt.savefig("./figure/MATBG_{}_{}.png".format(theta_v, r1), dpi=500)
     
     plt.show()
 
