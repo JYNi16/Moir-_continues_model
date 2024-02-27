@@ -20,9 +20,9 @@ d      = 1.420          #angstrom, whatever is ok.
 hv     = 1.5*d*2970     #meV*angstrom, Fermi velocity for SLG
 N      = 2              #truncate range
 valley = +1             #+1 for K, -1 for K'
-npoints  = 50           #density of k points, 100 is good
+npoints  = 50           #density of k points, 50 is good
 
-#parameters of continum model's moire bands of TBG
+#parameters of continum model's moire bands 
 theta  = theta_v/180.0*np.pi 
 I      = complex(0, 1)
 ei120  = cos(2*pi/3) + valley*I*sin(2*pi/3)
@@ -32,14 +32,14 @@ ei240  = cos(2*pi/3) - valley*I*sin(2*pi/3)
 b1m  = 8*np.pi*sin(theta/2)/3/d*np.array([0.5, -np.sqrt(3)/2])
 b2m  = 8*np.pi*sin(theta/2)/3/d*np.array([0.5, np.sqrt(3)/2])
 
-#High sym points in moire brzone
+#High sym points in moire 1st BZ
 qb  = 8*np.pi*sin(theta/2)/3/sqrt(3)/d*array([0, -1])
 K1  = 8*np.pi*sin(theta/2)/3/sqrt(3)/d*array([-sqrt(3)/2,-0.5])
 K2  = 8*np.pi*sin(theta/2)/3/sqrt(3)/d*array([-sqrt(3)/2,0.5])
 M  = 8*np.pi*sin(theta/2)/3/sqrt(3)/d*array([-sqrt(3)/2,0]) 
 G  = np.array([0,0]) 
 
-#define the pauli matrix
+#define the pauli matrices
 s0 = np.array([[1,0],[0,1]], dtype=complex)
 sx = np.array([[0,1],[1,0]], dtype=complex)
 sy = np.array([[0,-1.j],[1.j, 0]], dtype=complex)
