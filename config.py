@@ -9,9 +9,9 @@ from numpy import *
 import numpy as np
 
 #define constant
-theta_v  = 1.57          #degree
+theta_v  = 0.7          #degree
 w1  = 110.7          #interlayer hopping term //mev
-r1 = 0.9  # w1/w0 in 1-2 layer
+r1 = 1  # w1/w0 in 1-2 layer
 w0 = w1*(r1)
 
 #r12 = 0.5  # w1/w0 in 1-2 layer
@@ -36,6 +36,7 @@ b2m  = 8*np.pi*sin(theta/2)/3/d*np.array([0.5, np.sqrt(3)/2])
 qb  = 8*np.pi*sin(theta/2)/3/sqrt(3)/d*array([0, -1])
 K1  = 8*np.pi*sin(theta/2)/3/sqrt(3)/d*array([-sqrt(3)/2,-0.5])
 K2  = 8*np.pi*sin(theta/2)/3/sqrt(3)/d*array([-sqrt(3)/2,0.5])
+K2_p  = 8*np.pi*sin(theta/2)/3/sqrt(3)/d*array([sqrt(3)/2, 0.5])
 M  = 8*np.pi*sin(theta/2)/3/sqrt(3)/d*array([-sqrt(3)/2,0]) 
 G  = np.array([0,0]) 
 

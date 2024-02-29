@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Module to plot band for MATBG ...
+Module to plot moire band for MATBG/MATTG ...
 
 @author: Curry
 """
@@ -16,8 +16,8 @@ def H(k):
     return e
 
 def band_post():
-    #syms = [G, K1, M, K2, G, M, G]
-    syms = [K2, K1, G, M, K2]
+    syms = [K2, G, K1, K2, K2_p]
+    #syms = [K2, K1, G, M, K2]
     k_point_path, k_path, Node = k_path_sym_gen(syms)
     E_band = []
     
@@ -32,9 +32,10 @@ def band_post():
     return np.array(E_band), k_point_path, k_path, Node
 
 def plot_band(): 
-    k_sym_label =  [r"$K^{\prime}_{m}$",r"$K_{m}$", r"$\Gamma_{m}$", r"$M_{m}$",  r"$K^{\prime}_{m}$"]
-    #k_sym_label =  [r"$\Gamma_{m}$", r"$K_{m}$", r"$M_{m}$", r"$K^{\prime}_{m}$", r"$\Gamma_{m}$", r"$M_{m}$",   r"$\Gamma_{m}$"]
-    font = {'family': "Times New Roman", "weight":"normal", "size":20,}
+    #k_sym_label =  [r"$K^{\prime}_{m}$",r"$K_{m}$", r"$\Gamma_{m}$", r"$M_{m}$",  r"$K^{\prime}_{m}$"]
+    #k_sym_label =  [r"$\Gamma_{m}$", r"$K_{m}$", r"$M_{m}$", r"$K^{\prime}_{m}$", r"$\Gamma_{m}$", r"$M_{m}$", r"$\Gamma_{m}$"]
+    k_sym_label =  [r"$K_{2}$",r"$\Gamma$", r"$K_{1}$", r"$K_{2}$", r"$K_{2}^{\prime}$"]
+    font = {'family': "Times New Roman", "weight":"normal", "size":28,}
     E_band, k_point_path, k_path, Node= band_post()
     shape = E_band.shape
     print("E_band.shape is:", shape) 
@@ -49,7 +50,7 @@ def plot_band():
         plt.plot(k_path, eig, "black", linewidth=3)   
     
     plt.xlim(0, k_path[-1])
-    plt.ylim(-60,60)
+    plt.ylim(-120,120)
     plt.xticks(Node, k_sym_label) 
     #plt.xlabel("$K$-points", font)
     plt.ylabel("Energy($meV$)", font)
@@ -58,10 +59,10 @@ def plot_band():
     plt.yticks(fontproperties = "Times New Roman", fontsize=20)
     #plt.text(0.2,6.1, "(a)", fontsize=20, style= "Times New Roman")
     #plt.text(4.5,5, "$\mathregular{\Delta J_2 / D = 0.1}$", fontdict = font_txt)
-    title = r"Band of TTG with magic angle of {}$^\degree$ and $w_1 / w_0 = {}$".format(theta_v, r1)
+    title = r"Band of TTG with magic angle of {}$^\degree$ $w_1$ = {} and $w_1 / w_0 = {}$".format(theta_v, w1, r1)
     plt.title(title,loc = "center",fontdict={"size":"xx-large","color":"black", "family":"Times New Roman"})
     
-    plt.savefig("./figure/MATTG_{}_{}.png".format(theta_v, r1), dpi=500)
+    plt.savefig("./figure/MATTG_{}_{}_{}.png".format(theta_v, r1, w1), dpi=500)
     
     plt.show()
 
