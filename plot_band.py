@@ -8,7 +8,7 @@ Module to plot band for MATBG ...
 from config import * 
 import numpy as np 
 import matplotlib.pyplot as plt
-from MATBG_Ham import Hamiltonian
+from MATTG_Ham import Hamiltonian
 from k_sym_gen import *
 
 def H(k):
@@ -16,7 +16,8 @@ def H(k):
     return e
 
 def band_post():
-    syms = [K2,K1,G,M,K2]
+    #syms = [G, K1, M, K2, G, M, G]
+    syms = [K2, K1, G, M, K2]
     k_point_path, k_path, Node = k_path_sym_gen(syms)
     E_band = []
     
@@ -32,6 +33,7 @@ def band_post():
 
 def plot_band(): 
     k_sym_label =  [r"$K^{\prime}_{m}$",r"$K_{m}$", r"$\Gamma_{m}$", r"$M_{m}$",  r"$K^{\prime}_{m}$"]
+    #k_sym_label =  [r"$\Gamma_{m}$", r"$K_{m}$", r"$M_{m}$", r"$K^{\prime}_{m}$", r"$\Gamma_{m}$", r"$M_{m}$",   r"$\Gamma_{m}$"]
     font = {'family': "Times New Roman", "weight":"normal", "size":20,}
     E_band, k_point_path, k_path, Node= band_post()
     shape = E_band.shape
@@ -44,10 +46,10 @@ def plot_band():
         for j in range(shape[0]):
             eig_test.append(E_band[j][:,i])
         eig = np.hstack(tuple(eig_test))
-        plt.plot(k_path, eig, "black", linewidth=2)   
+        plt.plot(k_path, eig, "black", linewidth=3)   
     
     plt.xlim(0, k_path[-1])
-    plt.ylim(-80,80)
+    plt.ylim(-60,60)
     plt.xticks(Node, k_sym_label) 
     #plt.xlabel("$K$-points", font)
     plt.ylabel("Energy($meV$)", font)
@@ -56,10 +58,10 @@ def plot_band():
     plt.yticks(fontproperties = "Times New Roman", fontsize=20)
     #plt.text(0.2,6.1, "(a)", fontsize=20, style= "Times New Roman")
     #plt.text(4.5,5, "$\mathregular{\Delta J_2 / D = 0.1}$", fontdict = font_txt)
-    title = r"Band of TBG with magic angle of {}$^\degree$ and $w_1 / w_0 = {}$".format(theta_v, r1)
+    title = r"Band of TTG with magic angle of {}$^\degree$ and $w_1 / w_0 = {}$".format(theta_v, r1)
     plt.title(title,loc = "center",fontdict={"size":"xx-large","color":"black", "family":"Times New Roman"})
     
-    plt.savefig("./figure/MATBG_{}_{}.png".format(theta_v, r1), dpi=500)
+    plt.savefig("./figure/MATTG_{}_{}.png".format(theta_v, r1), dpi=500)
     
     plt.show()
 
