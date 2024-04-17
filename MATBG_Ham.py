@@ -11,9 +11,9 @@ from config import *
 
 #define the interlayer hopping term matrix Tth
 def T_mat(i):    
-    return w0*s0 + w1*(cos((2*pi/3)*(i-1))*sx + sin((2*pi/3)*(i-1))*sy)
+    return w0*s0 + w1*(cos((2*pi/3)*(i-1))*sx + valley*sin((2*pi/3)*(i-1))*sy)
 
-T1    =  T_mat(1)
+T1   =  T_mat(1)
 T2   =  T_mat(2)
 T3   =  T_mat(3)
 
