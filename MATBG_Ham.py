@@ -9,26 +9,14 @@ from numpy import *
 import numpy as np
 from config import *
 
-from Hopping_mat import T_mat 
+from mat_ import * 
 
 T1, T1_h = T_mat(1), np.array(np.matrix(T_mat(1)).H)
-T2, T2_h =  T_mat(2), np.array(np.matrix(T_mat(2)).H)
-T3, T3_h =  T_mat(3), np.array(np.matrix(T_mat(3)).H)
+T2, T2_h = T_mat(2), np.array(np.matrix(T_mat(2)).H)
+T3, T3_h = T_mat(3), np.array(np.matrix(T_mat(3)).H)
 
-invL = np.zeros((2*N+1, 2*N+1), int)
-L = []
-
-def Lattice(n):
-    count = 0
-    for i in np.arange(-n, n+1):
-        for j in np.arange(-n, n+1):
-            L.append([i, j])
-            invL[i+n, j+n] = count
-            count = count + 1
-
-Lattice(N)
-siteN = (2*N+1)*(2*N+1)
-L = np.array(L)
+lattN = (2*N+1)*(2*N+1)
+invL, L = Lattice(N)
 
 print("invL is:", invL)
 print("L is:", L)
@@ -36,9 +24,9 @@ print("L is:", L)
 def Hamiltonian(k):
     kx, ky = k
     
-    H = array(zeros((4*siteN, 4*siteN)), dtype=complex)
+    H = array(zeros((4*lattN, 4*lattN)), dtype=complex)
     
-    for i in np.arange(siteN):
+    for i in np.arange(lattN):
         #diagonal term
         m = L[i, 0]
         n = L[i, 1]
@@ -46,26 +34,24 @@ def Hamiltonian(k):
         ax = kx - valley*K1[0] + m*b1m[0] + n*b2m[0]
         ay = ky - valley*K1[1] + m*b1m[1] + n*b2m[1] 
         
-        qx = cos(theta/2) * ax + sin(theta/2) * ay
-        qy =-sin(theta/2) * ax + cos(theta/2) * ay
+        qx, qy = taylor_exp(ax, ay, theta), taylor_exp(ay, ax, -theta)
         
         #diagonal term of the first layer 
-        H[2*i, 2*i+1] = hv * (valley*qx - I*qy)
-        H[2*i+1, 2*i] = hv * (valley*qx + I*qy)
+        H[2*i, 2*i+1] = hv * (valley*qx - 1.j*qy)
+        H[2*i+1, 2*i] = hv * (valley*qx + 1.j*qy)
         
         ax2 = kx  - valley*K2[0] + m*b1m[0] + n*b2m[0] 
         ay2 = ky  - valley*K2[1] + m*b1m[1] + n*b2m[1]
-
-        qx2 = cos(theta/2) * ax2 - sin(theta/2) * ay2
-        qy2 = sin(theta/2) * ax2 + cos(theta/2) * ay2
+        
+        qx2, qy2 = taylor_exp(ax2, ay2, -theta), taylor_exp(ay2, ax2, theta)
         
         #diagonal term of the second layer 
-        H[2*(i+siteN), 2*(i+siteN)+1] = hv * (valley*qx2 - I*qy2)
-        H[2*(i+siteN)+1, 2*(i+siteN)] = hv * (valley*qx2 + I*qy2)
+        H[2*(i+lattN), 2*(i+lattN)+1] = hv * (valley*qx2 - 1.j*qy2)
+        H[2*(i+lattN)+1, 2*(i+lattN)] = hv * (valley*qx2 + 1.j*qy2)
 
         #off-diagonal term when m1-m2==0 and n1-n2==0
         #lower left part 
-        j = i + siteN
+        j = i + lattN
         H[2*j, 2*i]     = T1_h[0, 0]
         H[2*j, 2*i+1]   = T1_h[0, 1]
         H[2*j+1, 2*i]   = T1_h[1, 0]
@@ -79,7 +65,7 @@ def Hamiltonian(k):
         
         #off-diagonal term when m1-m2==0, n1-n2==-1*valley
         if (n != valley*N):
-            j = invL[m+N, n+valley*1+N] + siteN
+            j = invL[m+N, n+valley*1+N] + lattN
             
             #lower left part
             H[2*j, 2*i]     = T2_h[0, 0]
@@ -95,7 +81,7 @@ def Hamiltonian(k):
         
         #off-diagonal term when m1-m2==1*valley, n1-n2==0
         if (m != -valley*N):
-            j = invL[m-valley*1+N, n+N] + siteN
+            j = invL[m-valley*1+N, n+N] + lattN
             
             #lower left part
             H[2*j, 2*i]     = T3_h[0, 0]

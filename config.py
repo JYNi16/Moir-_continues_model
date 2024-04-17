@@ -9,24 +9,19 @@ from numpy import *
 import numpy as np
 
 #define constant
-theta_v  = 1.4703         #degree
+theta_v = 5       #degree
 w1  = 110.7          #interlayer hopping term //mev
-r1 = 0.85  # w1/w0 in 1-2 layer
+r1 = 1  # w1/w0 in 1-2 layer
 w0 = w1*(r1)
+theta = theta_v/180.0*np.pi
 
 #r12 = 0.5  # w1/w0 in 1-2 layer
 #w0 = w1*(r12)
-d      = 1.420          #angstrom, whatever is ok.
+d      = 1.420          #angstrom
 hv     = 1.5*d*2970     #meV*angstrom, Fermi velocity for SLG
 N      = 2              #truncate range
 valley = +1             #+1 for K, -1 for K'
 npoints  = 50           #density of k points, 50 is good
-
-#parameters of continum model's moire bands 
-theta  = theta_v/180.0*np.pi 
-I      = complex(0, 1)
-ei120  = cos(2*pi/3) + valley*I*sin(2*pi/3)
-ei240  = cos(2*pi/3) - valley*I*sin(2*pi/3)
 
 #The reciprocal lattice of moire brzone 
 b1m  = 8*np.pi*sin(theta/2)/3/d*np.array([0.5, -np.sqrt(3)/2])
