@@ -8,7 +8,7 @@ Module to plot moire band for MATBG/MATTG ...
 from config import * 
 import numpy as np 
 import matplotlib.pyplot as plt
-from MATBG_Ham import Hamiltonian
+from MATTG_Ham import Hamiltonian
 from k_sym_gen import *
 
 def H(k):
@@ -16,7 +16,7 @@ def H(k):
     return e
 
 def band_post():
-    syms = [K1, K2, G, M, K1]
+    syms = [K2, K1, G, M, K2]
     #syms = [K2, K1, G, M, K2]
     k_point_path, k_path, Node = k_path_sym_gen(syms)
     E_band = []
@@ -32,8 +32,8 @@ def band_post():
     return np.array(E_band), k_point_path, k_path, Node
 
 def plot_band(): 
-    #k_sym_label =  [r"$K^{\prime}_{m}$",r"$K_{m}$", r"$\Gamma_{m}$", r"$M_{m}$",  r"$K^{\prime}_{m}$"]
-    k_sym_label =  [r"$K_{m}$", r"$K^{\prime}_{m}$",  r"$\Gamma_{m}$", r"$M_{m}$", r"$K_{m}$"]
+    k_sym_label =  [r"$K^{\prime}_{m}$",r"$K_{m}$", r"$\Gamma_{m}$", r"$M_{m}$",  r"$K^{\prime}_{m}$"]
+    #k_sym_label =  [r"$K_{m}$", r"$K^{\prime}_{m}$",  r"$\Gamma_{m}$", r"$M_{m}$", r"$K_{m}$"]
     #k_sym_label =  [r"$K_{2}$",r"$\Gamma$", r"$K_{1}$", r"$K_{2}$", r"$K_{2}^{\prime}$"]
     font = {'family': "Times New Roman", "weight":"normal", "size":28,}
     E_band, k_point_path, k_path, Node= band_post()
@@ -50,7 +50,7 @@ def plot_band():
         plt.plot(k_path, eig, linewidth=3)   
     
     plt.xlim(0, k_path[-1])
-    plt.ylim(-1200,1200)
+    plt.ylim(-80,80)
     plt.xticks(Node, k_sym_label) 
     #plt.xlabel("$K$-points", font)
     plt.ylabel("Energy($meV$)", font)

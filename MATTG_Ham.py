@@ -8,18 +8,11 @@ The Hamiltonian of the twist bilayer Graphene with magic angle xxx
 from numpy import *
 import numpy as np
 from config import *
+from Hopping_mat import T_mat 
 
-#define the interlayer hopping term matrix Tth
-def T_mat(i):    
-    return w0*s0 + w1*(cos((2*pi/3)*(i-1))*sx + sin((2*pi/3)*(i-1))*sy)
-
-T1    =  T_mat(1)
-T2   =  T_mat(2)
-T3   =  T_mat(3)
-
-T1_h   = np.array(np.matrix(T1).H)
-T2_h  = np.array(np.matrix(T2).H)
-T3_h  = np.array(np.matrix(T3).H)
+T1, T1_h = T_mat(1), np.array(np.matrix(T_mat(1)).H)
+T2, T2_h =  T_mat(2), np.array(np.matrix(T_mat(2)).H)
+T3, T3_h =  T_mat(3), np.array(np.matrix(T_mat(3)).H)
 
 invL = np.zeros((2*N+1, 2*N+1), int)
 L = []
