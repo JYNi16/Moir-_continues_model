@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Module to plot moire band for MATBG/MATTG ...
+Module to plot moire band for MATBG/MATTG/MATTMD ...
 
 @author: Curry
 """
