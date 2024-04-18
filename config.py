@@ -20,7 +20,7 @@ theta = theta_v/180.0*np.pi
 d      = 1.420          #angstrom
 hv     = 1.5*d*2970     #meV*angstrom, Fermi velocity for SLG
 N      = 2              #truncate range
-valley = +1             #+1 for K, -1 for K'
+valley = -1             #+1 for K, -1 for K'
 npoints  = 50           #density of k points, 50 is good
 
 #The reciprocal lattice of moire brzone 
@@ -43,3 +43,11 @@ sz = np.array([[1,0],[0,-1]],  dtype=complex)
 
 #others
 sq3 = np.sqrt(3)
+
+#point density of the K-space 
+numk = 201
+
+#lattice vector in graphene
+a1 = np.array(([-1/2, sq3/2])/sq3)
+a2 = np.array(([-1/2, -sq3/2])/sq3)
+a3 = np.array(([1,0])/sq3)

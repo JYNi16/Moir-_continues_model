@@ -8,7 +8,7 @@ Module to plot moire band for MATBG/MATTG/MATTMD ...
 from config import * 
 import numpy as np 
 import matplotlib.pyplot as plt
-from MATBG_Ham import Hamiltonian
+from MATTG_Ham import Hamiltonian
 from k_sym_gen import *
 
 def H(k):
@@ -59,10 +59,10 @@ def plot_band():
     plt.yticks(fontproperties = "Times New Roman", fontsize=20)
     #plt.text(0.2,6.1, "(a)", fontsize=20, style= "Times New Roman")
     #plt.text(4.5,5, "$\mathregular{\Delta J_2 / D = 0.1}$", fontdict = font_txt)
-    title = r"Band of TBG with magic angle of {}$^\degree$ $w_1$ = {} and $w_1 / w_0 = {}$".format(theta_v, w1, r1)
+    title = r"Band of TTG with magic angle of {}$^\degree$ $w_1$ = {} and $w_1 / w_0 = {}$".format(theta_v, w1, r1)
     plt.title(title,loc = "center",fontdict={"size":"xx-large","color":"black", "family":"Times New Roman"})
     
-    plt.savefig("./figure/MATBG_{}_{}_{}.png".format(theta_v, r1, w1), dpi=500)
+    plt.savefig("./figure/MATTG_{}_{}_{}.png".format(theta_v, r1, w1), dpi=500)
     
     plt.show()
 
