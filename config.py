@@ -9,9 +9,9 @@ from numpy import *
 import numpy as np
 
 #define constant
-theta_v = 5       #degree
+theta_v = 1.57       #degree
 w1  = 110.7          #interlayer hopping term //mev
-r1 = 1  # w1/w0 in 1-2 layer
+r1 = 0.9  # w1/w0 in 1-2 layer
 w0 = w1*(r1)
 theta = theta_v/180.0*np.pi
 
@@ -35,17 +35,18 @@ M  = 8*np.pi*sin(theta/2)/3/sqrt(3)/d*array([sqrt(3)/2,0])
 M2  = 8*np.pi*sin(theta/2)/3/sqrt(3)/d*array([1/2,-sqrt(3)/2])
 G  = np.array([0,0]) 
 
+#others
+sq3 = np.sqrt(3)
+
 #define the pauli matrices
 s0 = np.array([[1,0],[0,1]], dtype=complex)
 sx = np.array([[0,1],[1,0]], dtype=complex)
 sy = np.array([[0,-1.j],[1.j, 0]], dtype=complex)
 sz = np.array([[1,0],[0,-1]],  dtype=complex)
 
-#others
-sq3 = np.sqrt(3)
 
 #point density of the K-space 
-numk = 201
+numk = 1001
 
 #lattice vector in graphene
 a1 = np.array(([-1/2, sq3/2])/sq3)

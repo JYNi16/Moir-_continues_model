@@ -17,7 +17,7 @@ import config as cf
 t1 = -1
 
 sq3 = np.sqrt(3)
-eplison = 0.008
+eplison = 0.0035
 
 numk_dos = cf.numk
 
@@ -42,7 +42,7 @@ for i in xxx:
 @jit
 def Dos():
     #H = np.zeros((2,2), dtype=complex)
-    npoints = 600
+    npoints = 500
     E = np.linspace(-3.5, 3.5, npoints, endpoint=True)
     E_dos = np.linspace(-3.5,3.5, npoints, endpoint=True)
     for i in range(npoints):
